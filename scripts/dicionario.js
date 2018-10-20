@@ -13,7 +13,7 @@ export class Dicionario {
         this.DETERMINER = "determiner";
         this.PREPOSITION = "preposition";
         this.AUXILIAR = "auxiliar verb"
-        this.PRONOUM = 'pronoum';
+        this.PRONOUN = 'pronoun';
         this.PROPER_NOUN = 'proper noun'
         // this.ADVERB = 'TODO';
         

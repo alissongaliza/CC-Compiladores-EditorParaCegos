@@ -17,13 +17,18 @@
     <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
     <!-- jQuery -->
     <script src="scripts/libs/jquery-1.9.1.min.js"></script>
+    <!-- knockout -->
+    <script src="scripts/libs/knockout-3.4.2.js"></script>
 
 
     <!-- main script -->
     <script src="index.js" type="module"></script>
-    <!-- <script src="index.js" type="text/javascript"></script> -->
 
-
+    <script>
+        viewModel = {
+            lexicoTokens: ko.observableArray()
+        };
+    </script>
 
 </head>
 
@@ -44,8 +49,26 @@
 
     <button id="buttonReproduce" class="btn waves-effect waves-light" type="submit" name="action">Submit
     </button>
-            
 
+
+    <!-- div de debugs -->
+    <!-- <div class="row debugs">
+        <div class="col 12" data-bind="foreach: lexicoTokens, click: console.log($data)">
+            <div class="row">
+                <span data-bind="text: $data.word"></span>
+                <span data-bind="text: $data.usedClassification"></span>
+                <span data-bind="text: ko.toJSON($data)"></span>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- json -->
+    <!-- <div class="row debugs"> -->
+    <pre data-bind="text: JSON.stringify(ko.toJSON(lexicoTokens, undefined, 2); "></pre>
+    <!-- </div> -->
+
+ 
 </body>
 
 </html>

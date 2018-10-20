@@ -30,24 +30,25 @@ Para facilitar o desenvolvimento, optamos por utilizar uma entrada em ingles
 
 1 | 2
 ------ | --
-S | Aux NP VP
-S | NP VP
-S | VP
-NP | pronoun
-NP | proper_noun
-NP | determinant NOMINAL
-NOMINAL | noun NOMINAL2
-NOMINAL2 | PP NOMINAL2
-NOMINAL2 | noun NOMINAL2
-NOMINAL2 | ε
-VP | verb VP2
-VP | verb NP VP2
-VP | verb NP PP VP2
-VP | verb PP VP2
-VP2 | PP VP2
-VP2 | ε
+S -> Aux NP VP
+   | NP VP
+   | VP
+NP -> Pronoun
+    | Proper_noun
+    | Determinant Nominal
+Nominal -> Noun Nominal2
+Nominal2 -> PP Nominal2
+          | Noun Nominal2
+          | ε
+VP -> Aux Verb VP2
+    | Verb VP2
+    | Verb Adj VP2
+    | Verb NP VP2
+    | Verb NP PP VP2
+    | Verb PP VP2
+VP2 -> PP VP2
+     | ε
 
- -->
 
 ## Gramática
 

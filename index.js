@@ -7,6 +7,9 @@ console.log("index.js");
 // welcome sppech
 // utils.printAndSpeek2("welcome, whenever I say, you can repeat me by pressing 'esc' or continue by pressing 'enter'");
 
+
+ko.applyBindings(viewModel);
+
 function runLexico() {
     console.log("iniciando teste");
     var lexico = new Lexico();
@@ -15,6 +18,8 @@ function runLexico() {
     var myInputArea = document.getElementById('inputArea');
     var txtCompleto = String(myInputArea.value);
     var frases = txtCompleto.split(/[.!?]/);
+
+    
 
     // separar em frases e analisar indivudalmente
     // for (const frase of frases) {
@@ -31,12 +36,12 @@ function runLexico() {
 
         var lexicoAnalise = lexico.analyze(frase + '.');
 
-        var lexicoTokens = lexicoAnalise.status == true ? lexicoAnalise.result : [];
+        viewModel.lexicoTokens(lexicoAnalise.status == true ? lexicoAnalise.result : []);
 
-        var sintatico = new Sintatico(lexicoTokens);
+        var sintatico = new Sintatico(viewModel.lexicoTokens);
 
-        var sintaticoAnalise = sintatico.comecarAnalise()
-
+        var sintaticoAnalise = sintatico.comecarAnalise();
+        viewModel.lexicoTokens(sintaticoAnalise.tokens());
 
 
         // se alguma frase der errado, para a execução
@@ -65,10 +70,18 @@ function runLexico() {
             break;
         }
 
-        console.log(lexicoTokens);
+        console.log(viewModel.lexicoTokens);
     }
+    try {
+       
+        
 
+    } catch(e){
+        console.log('e', e);
+    }
+   
 }
+
 
 
 document.getElementById("buttonReproduce").onclick = runLexico;

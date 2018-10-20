@@ -8,7 +8,7 @@ export class Sintatico {
 
         this.list_tokens = list_tokens;  //lista de tokens
         this.index = 0;      //índice do token atual
-        this.current = this.list_tokens[0];    //token atual
+        this.current = this.list_tokens()[0];    //token atual
         
         
         this.utils = utils;
@@ -26,9 +26,9 @@ export class Sintatico {
      * Retornar o próximo token da lista
      */
     next() {
-        if (this.index < (this.list_tokens).length - 1) { // verifica se o próximo índice pertence ao array
+        if (this.index < (this.list_tokens()).length - 1) { // verifica se o próximo índice pertence ao array
             this.index += 1;
-            this.current = this.list_tokens[this.index]; // pega o token atual
+            this.current = this.list_tokens()[this.index]; // pega o token atual
             // print (this.current)
             return this.current;
         }
@@ -69,7 +69,7 @@ export class Sintatico {
             return {status: false, mensagem:this.lastError};
         } else {
             this.utils.printAndSpeek("Sentence ok");
-            return {status: true};
+            return {status: true, tokens: this.list_tokens};
         }
 
 
@@ -97,7 +97,7 @@ export class Sintatico {
         }
         
         if(this.nounPhrase())
-            this.personNumber.push(this.list_tokens[this.index - 1]);
+            this.personNumber.push(this.list_tokens()[this.index - 1]);
 
 
         if (!this.verbPhrase()) {
@@ -123,7 +123,7 @@ export class Sintatico {
 
         if (!this.isAux() && this.isVerb()) {
 
-            this.personNumber.push(this.list_tokens[this.index - 1])
+            this.personNumber.push(this.list_tokens()[this.index - 1])
             var message = this.personNumber.reduz_pessoa();
             if (message != 'ok') {
                 this.lastError.mensagem = message;
@@ -155,7 +155,7 @@ export class Sintatico {
 
         else if (this.isAux()) {
             this.next();
-            this.personNumber.push(this.list_tokens[this.index - 1])
+            this.personNumber.push(this.list_tokens()[this.index - 1])
             var message = this.personNumber.reduz_pessoa();
             if (message != 'ok') {
                 this.lastError.mensagem = message;
@@ -163,6 +163,9 @@ export class Sintatico {
             }
             if (!this.isVerb())
                 return false;
+            if (!this.verbPhrase_2())
+                return false;
+
             return true;
 
         }
@@ -273,7 +276,7 @@ export class Sintatico {
             }
         );
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.NOUN;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.NOUN;
             this.next();
             return true;
         }
@@ -293,7 +296,7 @@ export class Sintatico {
             }
         );
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.VERB;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.VERB;
             this.next();
             return true;
         }
@@ -312,7 +315,7 @@ export class Sintatico {
             }
         );
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.DETERMINER;            
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.DETERMINER;            
             this.next();
             return true;
         }
@@ -332,7 +335,7 @@ export class Sintatico {
             }
         );
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.PREPOSITION;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.PREPOSITION;
             this.next();
             return true;
         }
@@ -347,7 +350,7 @@ export class Sintatico {
      */
     isProperNoun() {
         if(this.current.lex[0].classificacao == this.dicionario.PROPER_NOUN){
-            this.current['usedClassification'] = this.dicionario.PROPER_NOUN;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.PROPER_NOUN;
             this.next();
             return true;
         }
@@ -360,12 +363,12 @@ export class Sintatico {
 
         var retorno = false;
         this.current.lex.map( (x) => {
-            if(x.classificacao == this.dicionario.PRONOUM)
+            if(x.classificacao == this.dicionario.PRONOUN)
                 retorno = true;
             }
         );
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.PRONOUM;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.PRONOUN;
             this.next();
             return true;
         }
@@ -385,7 +388,7 @@ export class Sintatico {
         this.current.lex.map( (x) => {
             if(x.classificacaoDetalhada == this.dicionario.AUXILIAR ){
                 // verifica se o proximo é verbo
-                this.list_tokens[this.index+1].lex.map(y=>{
+                this.list_tokens()[this.index+1].lex.map(y=>{
                     if(y.classificacao == this.dicionario.VERB)
                         retorno = true;
                 });
@@ -393,7 +396,7 @@ export class Sintatico {
         });
 
         if(retorno){
-            this.current['usedClassification'] = this.dicionario.AUXILIAR;
+            this.list_tokens()[this.index]['usedClassification'] = this.dicionario.AUXILIAR;
             // this.next();
             return true;
         }

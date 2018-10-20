@@ -52,7 +52,7 @@ export class Lexico {
                     else if (x == this.dicionario.NOUN)
                         classifications.push({ "classificacao": x, "isPlural": false });
                     
-                    else if (x == this.dicionario.PRONOUM)
+                    else if (x == this.dicionario.PRONOUN)
                         classifications.push({ "classificacao": x, "personNumber": result.meaning[x] });
                     
                     else if(x == this.dicionario.AUXILIAR){
